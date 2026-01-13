@@ -2290,7 +2290,7 @@ const EXPENSE_CATEGORIES = [
     <div class="header-left">
       <div class="logo">
         <Bitcoin size={24} color="#f7931a" />
-        <span>SatStone | BitFinances</span>
+        <span><span style="color: #f7931a;">Sat</span>Stone | <span style="color: #f7931a;">Bit</span>Counting</span>
       </div>
     </div>
     <div class="header-center">
