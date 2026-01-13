@@ -27,6 +27,11 @@
     is_system: boolean;
   }
 
+  // Update check state
+  let updateAvailable = $state(false);
+  let latestVersion = $state("");
+  const currentVersion = "0.1.1"; // Keep this in sync with your releases
+
   // Categories state
   let categories = $state<Category[]>([]);
   let showAddCategory = $state(false);
@@ -1857,6 +1862,49 @@ const EXPENSE_CATEGORIES = [
   }
 
   // ============================================================================
+  // UPDATE CHECKER
+  // ============================================================================
+
+  async function checkForUpdates() {
+    try {
+      const response = await fetch(
+        "https://api.github.com/repos/Sat-Stone/BitCounting/releases/latest"
+      );
+      
+      if (!response.ok) return;
+      
+      const data = await response.json();
+      const latest = data.tag_name.replace("v", ""); // "v0.2.0" -> "0.2.0"
+      
+      if (isNewerVersion(latest, currentVersion)) {
+        latestVersion = latest;
+        updateAvailable = true;
+      }
+    } catch (e) {
+      console.error("Failed to check for updates:", e);
+    }
+  }
+
+  function isNewerVersion(latest: string, current: string): boolean {
+    const latestParts = latest.split(".").map(Number);
+    const currentParts = current.split(".").map(Number);
+    
+    for (let i = 0; i < 3; i++) {
+      if ((latestParts[i] || 0) > (currentParts[i] || 0)) return true;
+      if ((latestParts[i] || 0) < (currentParts[i] || 0)) return false;
+    }
+    return false;
+  }
+
+  function openReleasePage() {
+    window.open("https://github.com/Sat-Stone/BitCounting/releases/latest", "_blank");
+  }
+
+  function dismissUpdate() {
+    updateAvailable = false;
+  }
+
+  // ============================================================================
   // ENCRYPTION FUNCTIONS
   // ============================================================================
 
@@ -2182,6 +2230,7 @@ const EXPENSE_CATEGORIES = [
           if (fiatEnabled) fetchCurrentPrice();
         });
       });
+      checkForUpdates(); // <-- ADD THIS
     }
   });
 
@@ -2286,6 +2335,16 @@ const EXPENSE_CATEGORIES = [
       </div>
     </div>
   {:else}
+  <!-- Update notification banner -->
+  {#if updateAvailable}
+    <div class="update-banner">
+      <span>🎉 BitCounting v{latestVersion} is available!</span>
+      <button class="btn-update" onclick={openReleasePage}>Download Update</button>
+      <button class="btn-dismiss" onclick={dismissUpdate} title="Dismiss">✕</button>
+    </div>
+  {/if}
+
+  <!-- Main app content -->
   <header>
     <div class="header-left">
       <div class="logo">
@@ -6013,5 +6072,67 @@ const EXPENSE_CATEGORIES = [
   font-size: 0.875rem;
   color: var(--text-secondary);
   text-align: left;
+}
+/* Update Banner */
+.update-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #f7931a 0%, #ffa94d 100%);
+  color: #000;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-update {
+  padding: 0.5rem 1rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-update:hover {
+  background: #222;
+}
+
+.btn-dismiss {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0.6;
+  padding: 0 0.25rem;
+  line-height: 1;
+}
+
+.btn-dismiss:hover {
+  opacity: 1;
+}
+
+/* Adjust header position when banner is shown */
+.app:has(.update-banner) header {
+  top: 44px;
+}
+
+.app:has(.update-banner) .tabs {
+  top: 116px;
+}
+
+.app:has(.update-banner) main {
+  padding-top: 180px;
 }
 </style>
