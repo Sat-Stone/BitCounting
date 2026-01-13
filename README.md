@@ -34,23 +34,24 @@
 - **CSV Import** - Import from exchanges (Bull Bitcoin, LN Markets, etc.)
 - **P&L Tracking** - Realized/unrealized gains with cost basis methods
 
-## 📥 Download
+### Installation Note
 
-| Platform | Download |
-|----------|----------|
-| macOS | [BitCounting.dmg](https://github.com/Sat-Stone/BitCounting/releases/latest) |
-| Windows | Coming soon |
-| Linux | Coming soon |
+To use BitCounting on macOS, you need to build it from source (pre-built binaries are not provided due to macOS security requirements for unsigned apps).
 
-### macOS Installation Note
+1. Open **Terminal**.
+2. Clone the repository:
 
-Since the app is not signed with an Apple Developer certificate, you may see a security warning:
+   ```bash
+   git clone https://github.com/yourusername/BitCounting.git
+   cd BitCounting
 
-1. Download the `.dmg` file
-2. Open it and drag BitCounting to Applications
-3. **First launch:** Right-click the app → "Open" → Click "Open" in the dialog
-4. After first launch, it will open normally
+3. Install dependencies and build the app:
+   ```bash
+   npm install
+   npm run tauri build
 
+4. Drag BitCounting.app to your Applications folder (or run it directly from there).
+    
 ## 🔒 Security
 
 - **Local-only storage** - Your data never leaves your device
