@@ -26,7 +26,6 @@ src-tauri/target/
 *~
 .DS_Store
 Thumbs.db
-.svelte-kit
 
 # -----------------------------------------------------------------------------
 # Environment & Secrets (CRITICAL - never commit these)
