@@ -1,7 +1,20 @@
 # BitCounting
 
 <p align="center">
-  <img src="docs/logo.png" alt="BitCounting Logo" width="128">
+  <svg width="420" height="140" viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-weight: bold;
+      letter-spacing: -0.015em;
+    }
+  </style>
+  
+  <text x="30" y="95" font-size="92" fill="#f7931a">Bit</text>
+  <text x="30" y="95" font-size="92" fill="#333">
+    <tspan dx="118">Counting</tspan>
+  </text>
+</svg>
 </p>
 
 <p align="center">
