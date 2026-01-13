@@ -30,7 +30,7 @@
   // Update check state
   let updateAvailable = $state(false);
   let latestVersion = $state("");
-  const currentVersion = "0.1.3"; // Keep this in sync with your releases
+  const currentVersion = "0.1.4"; // Keep this in sync with your releases
 
   // Categories state
   let categories = $state<Category[]>([]);
